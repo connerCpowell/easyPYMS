@@ -115,7 +115,6 @@ optional arguments:
                         local alignment: minimum number of samples that an
                         aligned peak must be called in for it to be outputted
                         (default: 1)
-
 ```
 
 
