@@ -1,6 +1,8 @@
 EasyGC
 ======
 
+To install, use: `bash install.sh && . venv/bin/activate`
+
 This is a high throughput, command-line GC-MS analysis pipeline. It is built on top of a modified version of the PyMS python library (http://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-115) 
 
 This pipeline makes it easy to analyse a large set of GC-MS runs. The input is a directory full of runs (in CDF or JDX format), and the output is a matrix of peaks aligned across all your samples, including their retention times, TIC areas, and mini mass spec per called peak. You can tweak the way peaks are called, filtered and aligned with a whole range of parameters. The key thing, though, is that this pipeline makes it VERY easy to quantitate a lot of peaks across a lot of samples with minimal fuss. It is especially useful for population-level analyses where relative peak size or presence matters most, rather than extremely accurate peak identification and quantitation.
@@ -115,7 +117,6 @@ optional arguments:
                         local alignment: minimum number of samples that an
                         aligned peak must be called in for it to be outputted
                         (default: 1)
-
 ```
 
 
