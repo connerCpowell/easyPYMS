@@ -35,10 +35,7 @@ def glob(glob_pattern, directoryname):
             name = filename.rsplit('/CDFdata/')[-1]
             names.append(name)
 
-<<<<<<< HEAD
     print('n1', names)
-=======
->>>>>>> 0160a062d60f2e8518c1c58f502ec21560645cc3
     return matches, names
 
 def matrix_from_cdf(cdffile, name):
@@ -47,11 +44,7 @@ def matrix_from_cdf(cdffile, name):
     #data.info()
     tic = data.get_tic()
     noise_lvl = window_analyzer(tic)
-<<<<<<< HEAD
     print('nz=', noise_lvl)
-=======
-    #print(noise_lvl)
->>>>>>> 0160a062d60f2e8518c1c58f502ec21560645cc3
 
     return build_intensity_matrix(data), noise_lvl
 
@@ -79,24 +72,17 @@ def Preprocess_IntensityMatrixes(matrixes):
 
 
 
-<<<<<<< HEAD
 def Peak_detector(pp_im, noise, name, points, scans, percent, ni, name_tag, sdir):
-=======
-def Peak_detector(pp_im, noise, name, points, scans, percent, nin, name_tag, sdir):
->>>>>>> 0160a062d60f2e8518c1c58f502ec21560645cc3
     # Peak detection and filtering and selection
     peakz = []
     counter = 1
     savePath = sdir
     ms_data_files = []
 
-<<<<<<< HEAD
     print("len pp_im", len(list(pp_im)))
     print("len noise", len(noise))
     print("len name", len(name), name)
 
-=======
->>>>>>> 0160a062d60f2e8518c1c58f502ec21560645cc3
     for im, n, na in itertools.izip(list(pp_im), noise, name):
 
         ms_data = []
@@ -104,44 +90,28 @@ def Peak_detector(pp_im, noise, name, points, scans, percent, nin, name_tag, sdi
         #print(na)
         poss_peaks = BillerBiemann(im, points=points, scans=scans)                 #increase scan #
         pi = rel_threshold(poss_peaks, percent=percent)
-<<<<<<< HEAD
         nin = num_ions_threshold(pi, n=ni, cutoff=n)
-=======
-        nin = num_ions_threshold(pi, n=nin, cutoff=n)
->>>>>>> 0160a062d60f2e8518c1c58f502ec21560645cc3
 
 
 
         completeName = os.path.join(savePath, na + name_tag + "ms_data.csv")
         with open(completeName, 'w') as f:
             w = csv.writer(f)
-<<<<<<< HEAD
             head = [ 'Area', 'RTs', 35.0, 36.0, 37.0, 38.0, 39.0, 40.0, 41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0, 60.0, 61.0, 62.0, 63.0, 64.0, 65.0, 66.0, 67.0, 68.0, 69.0, 70.0, 71.0, 72.0, 73.0, 74.0, 75.0, 76.0, 77.0, 78.0, 79.0, 80.0, 81.0, 82.0, 83.0, 84.0, 85.0, 86.0, 87.0, 88.0, 89.0, 90.0, 91.0, 92.0, 93.0, 94.0, 95.0, 96.0, 97.0, 98.0, 99.0, 100.0, 101.0, 102.0, 103.0, 104.0, 105.0, 106.0, 107.0, 108.0, 109.0, 110.0, 111.0, 112.0, 113.0, 114.0, 115.0, 116.0, 117.0, 118.0, 119.0, 120.0, 121.0, 122.0, 123.0, 124.0, 125.0, 126.0, 127.0, 128.0, 129.0, 130.0, 131.0, 132.0, 133.0, 134.0, 135.0, 136.0, 137.0, 138.0, 139.0, 140.0, 141.0, 142.0, 143.0, 144.0, 145.0, 146.0, 147.0, 148.0, 149.0, 150.0, 151.0, 152.0, 153.0, 154.0, 155.0, 156.0, 157.0, 158.0, 159.0, 160.0, 161.0, 162.0, 163.0, 164.0, 165.0, 166.0, 167.0, 168.0, 169.0, 170.0, 171.0, 172.0, 173.0, 174.0, 175.0, 176.0, 177.0, 178.0, 179.0, 180.0, 181.0, 182.0, 183.0, 184.0, 185.0, 186.0, 187.0, 188.0, 189.0, 190.0, 191.0, 192.0, 193.0, 194.0, 195.0, 196.0, 197.0, 198.0, 199.0, 200.0, 201.0, 202.0, 203.0, 204.0, 205.0, 206.0, 207.0, 208.0, 209.0, 210.0, 211.0, 212.0, 213.0, 214.0, 215.0, 216.0, 217.0, 218.0, 219.0, 220.0]
-=======
-            head = ['RTs', 35.0, 36.0, 37.0, 38.0, 39.0, 40.0, 41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0, 60.0, 61.0, 62.0, 63.0, 64.0, 65.0, 66.0, 67.0, 68.0, 69.0, 70.0, 71.0, 72.0, 73.0, 74.0, 75.0, 76.0, 77.0, 78.0, 79.0, 80.0, 81.0, 82.0, 83.0, 84.0, 85.0, 86.0, 87.0, 88.0, 89.0, 90.0, 91.0, 92.0, 93.0, 94.0, 95.0, 96.0, 97.0, 98.0, 99.0, 100.0, 101.0, 102.0, 103.0, 104.0, 105.0, 106.0, 107.0, 108.0, 109.0, 110.0, 111.0, 112.0, 113.0, 114.0, 115.0, 116.0, 117.0, 118.0, 119.0, 120.0, 121.0, 122.0, 123.0, 124.0, 125.0, 126.0, 127.0, 128.0, 129.0, 130.0, 131.0, 132.0, 133.0, 134.0, 135.0, 136.0, 137.0, 138.0, 139.0, 140.0, 141.0, 142.0, 143.0, 144.0, 145.0, 146.0, 147.0, 148.0, 149.0, 150.0, 151.0, 152.0, 153.0, 154.0, 155.0, 156.0, 157.0, 158.0, 159.0, 160.0, 161.0, 162.0, 163.0, 164.0, 165.0, 166.0, 167.0, 168.0, 169.0, 170.0, 171.0, 172.0, 173.0, 174.0, 175.0, 176.0, 177.0, 178.0, 179.0, 180.0, 181.0, 182.0, 183.0, 184.0, 185.0, 186.0, 187.0, 188.0, 189.0, 190.0, 191.0, 192.0, 193.0, 194.0, 195.0, 196.0, 197.0, 198.0, 199.0, 200.0, 201.0, 202.0, 203.0, 204.0, 205.0, 206.0, 207.0, 208.0, 209.0, 210.0, 211.0, 212.0, 213.0, 214.0, 215.0, 216.0, 217.0, 218.0, 219.0, 220.0]
->>>>>>> 0160a062d60f2e8518c1c58f502ec21560645cc3
             w.writerow(head)
             for peak in nin:
 
                 area = peak_sum_area(im, peak)
-<<<<<<< HEAD
                 print('area=', area)
                 peak.set_area(area)
                 ms = peak.get_mass_spectrum()
                 print("Peaks rt: ", peak.get_rt())
-=======
-                #print('area=', area)
-                peak.set_area(area)
-                ms = peak.get_mass_spectrum()
-                #print("Peaks rt: ", peak.get_rt())
->>>>>>> 0160a062d60f2e8518c1c58f502ec21560645cc3
                 #print("Peaks ms_list: ", ms.mass_list)
                 #print("Peaks ms_spec: ", list(ms.mass_spec))
                 p_rt = peak.get_rt()
                 its = []
                 items = list(ms.mass_spec)
                 for i in items:
-<<<<<<< HEAD
 
                     x = float(i)
                     its.append(x)
@@ -157,24 +127,7 @@ def Peak_detector(pp_im, noise, name, points, scans, percent, nin, name_tag, sdi
         # #print("...", counter)
         # counter += 1
         ms_data_files.append(completeName)
-    print(ms_data_files)
-=======
-                    x = float(i)
-                    its.append(x)
-                ms_d = ([p_rt] + its)
-                #print(ms_d)
-
-
-                w.writerow(ms_d)
-        f.close()
-
-
-        peakz.append(nin)
-        #print("...", counter)
-        counter += 1
-        ms_data_files.append(completeName)
-
->>>>>>> 0160a062d60f2e8518c1c58f502ec21560645cc3
+    print('ms_data_files:', ms_data_files)
 
     return [peakz, ms_data_files]
 
@@ -228,10 +181,7 @@ def Experiment_store(names, peakz, name_tag, sdir):
 def main():
 
     print("Enter values for: cdf file directory, points, scans, percent, num. of ions, storage directory" )
-<<<<<<< HEAD
     print("/home/cocopalacelove/Desktop/Driscolls/Acinis/CDFdata/small_batch/")
-=======
->>>>>>> 0160a062d60f2e8518c1c58f502ec21560645cc3
 
     dirc = raw_input("CDF file directory:")
     points = int(raw_input("Points:"))
@@ -255,11 +205,7 @@ def main():
 
     list_of_cdffiles, names = glob(glob_pattern='*.cdf', directoryname=dirc)
     for cdffile, name in itertools.izip(list_of_cdffiles, names):
-<<<<<<< HEAD
         print name
-=======
-        # print name
->>>>>>> 0160a062d60f2e8518c1c58f502ec21560645cc3
         names.append(name)
         m_c = matrix_from_cdf(cdffile, name)
         matrixes.append(m_c[0])
