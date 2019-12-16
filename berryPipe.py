@@ -75,7 +75,7 @@ def Preprocess_IntensityMatrixes(matrixes):
 def Peak_detector(pp_im, noise, name, points, scans, percent, ni, name_tag, sdir):
     # Peak detection and filtering and selection
     peakz = []
-    counter = 1
+    #counter = 1
     savePath = sdir
     ms_data_files = []
 
@@ -97,17 +97,19 @@ def Peak_detector(pp_im, noise, name, points, scans, percent, ni, name_tag, sdir
         completeName = os.path.join(savePath, na + name_tag + "ms_data.csv")
         with open(completeName, 'w') as f:
             w = csv.writer(f)
-            head = [ 'Area', 'RTs', 35.0, 36.0, 37.0, 38.0, 39.0, 40.0, 41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0, 60.0, 61.0, 62.0, 63.0, 64.0, 65.0, 66.0, 67.0, 68.0, 69.0, 70.0, 71.0, 72.0, 73.0, 74.0, 75.0, 76.0, 77.0, 78.0, 79.0, 80.0, 81.0, 82.0, 83.0, 84.0, 85.0, 86.0, 87.0, 88.0, 89.0, 90.0, 91.0, 92.0, 93.0, 94.0, 95.0, 96.0, 97.0, 98.0, 99.0, 100.0, 101.0, 102.0, 103.0, 104.0, 105.0, 106.0, 107.0, 108.0, 109.0, 110.0, 111.0, 112.0, 113.0, 114.0, 115.0, 116.0, 117.0, 118.0, 119.0, 120.0, 121.0, 122.0, 123.0, 124.0, 125.0, 126.0, 127.0, 128.0, 129.0, 130.0, 131.0, 132.0, 133.0, 134.0, 135.0, 136.0, 137.0, 138.0, 139.0, 140.0, 141.0, 142.0, 143.0, 144.0, 145.0, 146.0, 147.0, 148.0, 149.0, 150.0, 151.0, 152.0, 153.0, 154.0, 155.0, 156.0, 157.0, 158.0, 159.0, 160.0, 161.0, 162.0, 163.0, 164.0, 165.0, 166.0, 167.0, 168.0, 169.0, 170.0, 171.0, 172.0, 173.0, 174.0, 175.0, 176.0, 177.0, 178.0, 179.0, 180.0, 181.0, 182.0, 183.0, 184.0, 185.0, 186.0, 187.0, 188.0, 189.0, 190.0, 191.0, 192.0, 193.0, 194.0, 195.0, 196.0, 197.0, 198.0, 199.0, 200.0, 201.0, 202.0, 203.0, 204.0, 205.0, 206.0, 207.0, 208.0, 209.0, 210.0, 211.0, 212.0, 213.0, 214.0, 215.0, 216.0, 217.0, 218.0, 219.0, 220.0]
+            #head = [35.0, 36.0, 37.0, 38.0, 39.0, 40.0, 41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0, 60.0, 61.0, 62.0, 63.0, 64.0, 65.0, 66.0, 67.0, 68.0, 69.0, 70.0, 71.0, 72.0, 73.0, 74.0, 75.0, 76.0, 77.0, 78.0, 79.0, 80.0, 81.0, 82.0, 83.0, 84.0, 85.0, 86.0, 87.0, 88.0, 89.0, 90.0, 91.0, 92.0, 93.0, 94.0, 95.0, 96.0, 97.0, 98.0, 99.0, 100.0, 101.0, 102.0, 103.0, 104.0, 105.0, 106.0, 107.0, 108.0, 109.0, 110.0, 111.0, 112.0, 113.0, 114.0, 115.0, 116.0, 117.0, 118.0, 119.0, 120.0, 121.0, 122.0, 123.0, 124.0, 125.0, 126.0, 127.0, 128.0, 129.0, 130.0, 131.0, 132.0, 133.0, 134.0, 135.0, 136.0, 137.0, 138.0, 139.0, 140.0, 141.0, 142.0, 143.0, 144.0, 145.0, 146.0, 147.0, 148.0, 149.0, 150.0, 151.0, 152.0, 153.0, 154.0, 155.0, 156.0, 157.0, 158.0, 159.0, 160.0, 161.0, 162.0, 163.0, 164.0, 165.0, 166.0, 167.0, 168.0, 169.0, 170.0, 171.0, 172.0, 173.0, 174.0, 175.0, 176.0, 177.0, 178.0, 179.0, 180.0, 181.0, 182.0, 183.0, 184.0, 185.0, 186.0, 187.0, 188.0, 189.0, 190.0, 191.0, 192.0, 193.0, 194.0, 195.0, 196.0, 197.0, 198.0, 199.0, 200.0, 201.0, 202.0, 203.0, 204.0, 205.0, 206.0, 207.0, 208.0, 209.0, 210.0, 211.0, 212.0, 213.0, 214.0, 215.0, 216.0, 217.0, 218.0, 219.0, 220.0]
+            head = ['Area', 'RTs', 35.0, 36.0, 37.0, 38.0, 39.0, 40.0, 41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0, 60.0, 61.0, 62.0, 63.0, 64.0, 65.0, 66.0, 67.0, 68.0, 69.0, 70.0, 71.0, 72.0, 73.0, 74.0, 75.0, 76.0, 77.0, 78.0, 79.0, 80.0, 81.0, 82.0, 83.0, 84.0, 85.0, 86.0, 87.0, 88.0, 89.0, 90.0, 91.0, 92.0, 93.0, 94.0, 95.0, 96.0, 97.0, 98.0, 99.0, 100.0, 101.0, 102.0, 103.0, 104.0, 105.0, 106.0, 107.0, 108.0, 109.0, 110.0, 111.0, 112.0, 113.0, 114.0, 115.0, 116.0, 117.0, 118.0, 119.0, 120.0, 121.0, 122.0, 123.0, 124.0, 125.0, 126.0, 127.0, 128.0, 129.0, 130.0, 131.0, 132.0, 133.0, 134.0, 135.0, 136.0, 137.0, 138.0, 139.0, 140.0, 141.0, 142.0, 143.0, 144.0, 145.0, 146.0, 147.0, 148.0, 149.0, 150.0, 151.0, 152.0, 153.0, 154.0, 155.0, 156.0, 157.0, 158.0, 159.0, 160.0, 161.0, 162.0, 163.0, 164.0, 165.0, 166.0, 167.0, 168.0, 169.0, 170.0, 171.0, 172.0, 173.0, 174.0, 175.0, 176.0, 177.0, 178.0, 179.0, 180.0, 181.0, 182.0, 183.0, 184.0, 185.0, 186.0, 187.0, 188.0, 189.0, 190.0, 191.0, 192.0, 193.0, 194.0, 195.0, 196.0, 197.0, 198.0, 199.0, 200.0, 201.0, 202.0, 203.0, 204.0, 205.0, 206.0, 207.0, 208.0, 209.0, 210.0, 211.0, 212.0, 213.0, 214.0, 215.0, 216.0, 217.0, 218.0, 219.0, 220.0]
+
             w.writerow(head)
             for peak in nin:
 
                 area = peak_sum_area(im, peak)
-                print('area=', area)
+                # print('area:', area)
                 peak.set_area(area)
                 ms = peak.get_mass_spectrum()
-                print("Peaks rt: ", peak.get_rt())
-                #print("Peaks ms_list: ", ms.mass_list)
-                #print("Peaks ms_spec: ", list(ms.mass_spec))
+                # print("Peaks rt: ", peak.get_rt())
+                # print("Peaks ms_list: ", ms.mass_list)
+                # print("Peaks ms_spec: ", list(ms.mass_spec))
                 p_rt = peak.get_rt()
                 its = []
                 items = list(ms.mass_spec)
@@ -117,7 +119,8 @@ def Peak_detector(pp_im, noise, name, points, scans, percent, ni, name_tag, sdir
                     its.append(x)
 
                 ms_d = ([area] + [p_rt] + its)
-                print('ms_d', ms_d)
+                # ms_d = its
+                # print('ms_d', ms_d)
                 w.writerow(ms_d)
 
             f.close()
@@ -134,18 +137,36 @@ def Peak_detector(pp_im, noise, name, points, scans, percent, ni, name_tag, sdir
 
 def MS_process(file_list):
     ratio_set = []
-    peaks = []
+
+
+    print(file_list)
 
     for n in file_list:
+        peaks = []
+        areas = []
+        print('n=', n)
+        print("----------------------------------11------------------------------------")
         with open(n, 'r') as f:
             next(f)
             for line in f:
                 sline = line.split(',')
-                p = sline[0]
+                a = sline[0]
+                p = sline[1]
+                # p2 = sline[2]
+                # p3 = sline[3]
+                # print('sline=', sline)
+                # print('are2a=', a)
+                # print('peak rt2=', p)
+
+                sline.pop(0)
+                sline.pop(0)
                 peaks.append(p)
+                areas.append(a)
+
                 ratios = []
                 maxi = max(map(float, sline))
-                loc = sline.index(str(maxi))
+                #print('maxi=', maxi)
+                #loc = sline.index(str(maxi))
 
 
                 c = 34.0
@@ -157,16 +178,44 @@ def MS_process(file_list):
 
 
                 ratio_set.append(ratios)
+            # print('peaks=', peaks)
+            # print('areas=', areas)
 
-            for ratios, p in zip(ratio_set, peaks):
-                # print(ratios)
+            print("----------22--------------------------------------")
+            name1 = n.rsplit('ms_data.csv')
+            name2 = name1[0] + '.MSD'
+            print('n2=', name2)
+            #ms_name = os.path.join()
+            #print('ms', name1)
+
+            pp = open(name2, "w+")
+            for ratios, p, a in zip(ratio_set, peaks, areas):
+                #print('ratios=', ratios)
                 rs = sorted(ratios, key=lambda t: t[1], reverse=True)[:10]
-                # print(rs)
-                print('Name: peak #', p)
-                print('Num Peaks:', 10)
+
+
+                # print('rs=', rs)
+                ll = 'Peak RT#', p, 'Area:', a
+                print('ll=', str(ll))
+                pp.write(str(ll) + "\n")
+
+                nn = 'Num Peaks:', 10
+                print('nn=', str(nn))
+                pp.write(str(nn) + "\n")
                 for i in rs:
-                    print(str(i).replace('[', '').replace(']', '').replace(',', ''))
+                    ss = str(i).replace('[', '').replace(']', '').replace(',', '')
+                    print('ss=', ss)
+                    pp.write(ss + "\n")
                 print('\n')
+                pp.write("\n")
+            pp.close()
+
+            nameFil = name1[0] + '.fil'
+            ff = open(nameFil, "w+")
+            nameMSD = "C:\mymsds\data\be-31a1.MSD"
+            ff.write(name2 + " OVERWRITE")
+            ff.close()
+
 
 
 def Experiment_store(names, peakz, name_tag, sdir):
@@ -205,17 +254,23 @@ def main():
 
     list_of_cdffiles, names = glob(glob_pattern='*.cdf', directoryname=dirc)
     for cdffile, name in itertools.izip(list_of_cdffiles, names):
-        print name
-        names.append(name)
+        print('name=', name)
+        #names.append(name)
         m_c = matrix_from_cdf(cdffile, name)
         matrixes.append(m_c[0])
         noise.append(m_c[1])
+
+
+    print('names=', names)
 
     pp_im = Preprocess_IntensityMatrixes(matrixes)
     # for i, n in itertools.izip(pp_im, noise):
     #     print(i, n)
     peak_m = Peak_detector(pp_im, noise, names, points, scans, percent, nin, name_tag, sdir)
     Experiment_store(names, peak_m[0], name_tag, sdir)
+
+    print('p1=', peak_m[1])
+    MS_process(peak_m[1])
 
 
     #print(dirc, points)
