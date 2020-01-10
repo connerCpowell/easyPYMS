@@ -183,7 +183,7 @@ def MS_process(file_list):
 
             print("----------22--------------------------------------")
             name1 = n.rsplit('ms_data.csv')
-            name2 = name1[0] + '.MSD'
+            name2 = name1[0] + '.txt'
             print('n2=', name2)
             #ms_name = os.path.join()
             #print('ms', name1)
@@ -195,7 +195,7 @@ def MS_process(file_list):
 
 
                 # print('rs=', rs)
-                ll = 'Peak RT#', p, 'Area:', a
+                ll = 'Name:', p, 'Area-', a
                 print('ll=', str(ll))
                 pp.write(str(ll) + "\n")
 
@@ -210,11 +210,13 @@ def MS_process(file_list):
                 pp.write("\n")
             pp.close()
 
-            nameFil = name1[0] + '.fil'
-            ff = open(nameFil, "w+")
-            nameMSD = "C:\mymsds\data\be-31a1.MSD"
-            ff.write(name2 + " OVERWRITE")
-            ff.close()
+            # nameFil = name1[0] + '.FIL'
+            # ff = open(nameFil, "w+")
+            # nameMSD = "C:\mymsds\data\be-31a1.MSD"
+            # # ff.write(name2 + " OVERWRITE")
+            # ff.write(name2 + " APPEND")
+            #
+            # ff.close()
 
 
 
@@ -223,13 +225,13 @@ def Experiment_store(names, peakz, name_tag, sdir):
     for n, p in itertools.izip(names, peakz):
         expr = Experiment(n, p)
         expr.sele_rt_range(["1m", "50m"])
-        store_expr(sdir+n+name_tag+"expr", expr)
+        store_expr(sdir+n+name_tag+".expr", expr)
         print(n, "checked")
 
 
 def main():
 
-    print("Enter values for: cdf file directory, points, scans, percent, num. of ions, storage directory" )
+    print("Enter values for: cdf file directory, points, scans, percent, num. of ions, storage directory1 & storage directory2" )
     print("/home/cocopalacelove/Desktop/Driscolls/Acinis/CDFdata/small_batch/")
 
     dirc = raw_input("CDF file directory:")
@@ -237,7 +239,9 @@ def main():
     scans = int(raw_input("Scans:"))
     percent = int(raw_input("Percent:"))
     nin = int(raw_input("num. of ions:"))
-    sdir = raw_input("Storage directory:")
+    sdir = raw_input("Storage directory1:")
+    #sdir2 = raw_input("Storage directory2:")
+
     matrixes = []
     noise = []
     name_tag = str('p'+str(points)+'s'+str(scans)+'%'+str(percent)+'n'+str(nin))
