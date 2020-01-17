@@ -13,6 +13,9 @@ import fnmatch
 import os
 from pyms.Noise.Analysis import window_analyzer
 import csv
+import re
+
+from datetime import datetime
 
 
 
@@ -196,12 +199,14 @@ def MS_process(file_list):
 
                 # print('rs=', rs)
                 ll = 'Name:', p, 'Area-', a
-                print('ll=', str(ll))
-                pp.write(str(ll) + "\n")
+                ll = str(ll).replace("'","").replace(",","").replace("(","").replace(")","")
+                print('ll=', ll)
+                pp.write(ll + "\n")
 
                 nn = 'Num Peaks:', 10
-                print('nn=', str(nn))
-                pp.write(str(nn) + "\n")
+                nn = str(nn).replace("'","").replace(",","").replace("(","").replace(")","")
+                print('nn=', nn)
+                pp.write(nn + "\n")
                 for i in rs:
                     ss = str(i).replace('[', '').replace(']', '').replace(',', '')
                     print('ss=', ss)
@@ -231,6 +236,8 @@ def Experiment_store(names, peakz, name_tag, sdir):
 
 def main():
 
+
+
     print("Enter values for: cdf file directory, points, scans, percent, num. of ions, storage directory1 & storage directory2" )
     print("/home/cocopalacelove/Desktop/Driscolls/Acinis/CDFdata/small_batch/")
 
@@ -255,6 +262,8 @@ def main():
     print("Name_tag:", name_tag)
     print("Storage directory:", sdir)
 
+    startTime = datetime.now()
+
 
     list_of_cdffiles, names = glob(glob_pattern='*.cdf', directoryname=dirc)
     for cdffile, name in itertools.izip(list_of_cdffiles, names):
@@ -275,6 +284,9 @@ def main():
 
     print('p1=', peak_m[1])
     MS_process(peak_m[1])
+
+    print("runtime=")
+    print datetime.now() - startTime
 
 
     #print(dirc, points)
