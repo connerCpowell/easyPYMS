@@ -39,18 +39,54 @@ def singleAlign(exprs):
 
 
 def main():
-    folder_with_exprs = '/home/cocopalacelove/tmp/'
-    expr_loaded = []
+    # folder_with_exprs = '/home/cocopalacelove/tmp/'
+    # expr_loaded = []
 
-    list_of_exprs, names = glob(glob_pattern='*.expr', directoryname=folder_with_exprs)
-    for i in list_of_exprs:
-        print(i)
-        expr = load_expr(i)
-        expr_loaded.append(expr)
+    optionA = raw_input("Do you wish to run a full alignment(1) or species alignment(2)?")
+    if optionA == 1:
 
-    singleAlign(expr_loaded)
-    print('Done!')
+        dirc = raw_input("EXPR file directory:")
+        splt = raw_input("split on:")
+        gs = int(raw_input("Mod size:"))
+        scans = int(raw_input("Gap penalty:"))
+        sdir = raw_input("Storage directory:")
+        expr_loaded = []
+
+        list_of_exprs, names = glob(glob_pattern='*.expr', directoryname=dirc)
+        for i in list_of_exprs:
+            print(i)
+            expr = load_expr(i)
+            expr_loaded.append(expr)
+
+        singleAlign(expr_loaded)
+        print('Done!')
+
+    elif optionA == 2:
+
+        dirc = raw_input("EXPR file directory:")
+        splt = raw_input("split on:")
+        gs = int(raw_input("Mod size:"))
+        scans = int(raw_input("Gap penalty:"))
+        sdir = raw_input("Storage directory:")
+
+
+
+
+
+    else:
+        print('Not an excepted value...')
+
+
+
+
+
 
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
