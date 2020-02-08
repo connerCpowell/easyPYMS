@@ -8,22 +8,22 @@ def distance(lista, listb):
 
 def get_data(line, num):
     try:
-        return float(line.split('\t')[num].strip())
+        return float(line.split(',')[num].strip())
     except:
         return 0
 
-with open('/home/juicebox/Desktop/Acinis/CDFdata/all_csv/all_9025pe2n3p233_area.csv', 'r') as f:
+with open('/home/cocopalacelove/tmp/sb_out/A1_area.csv', 'r') as f:
     i = 0
     species_dict = OrderedDict()
     list_o_species = []
     total = 0
     for line in f:
-        #print(line)
-        num = line.count('\t')
-        print('num=' + str(num))
+        # print(line)
+        num = line.count(',')
+        # print('num=' + str(num))
         if num > 0:
-            total += num +1
-            #print('total=' + str(total))
+            total = num + 1
+            print('total=' + str(total))
         if i != 0:
             count = 0
             for j in range(num-1):
@@ -38,13 +38,13 @@ with open('/home/juicebox/Desktop/Acinis/CDFdata/all_csv/all_9025pe2n3p233_area.
                 print('j='+str(j)+ '\n')
         else:
             for i in range(num):
-                print(i)
+                print('i=', i)
                 j = i+1
 
-                species_dict[line.split('\t')[j].strip()] = []
-                u = line.split('\t')[j].strip()
+                species_dict[line.split(',')[j].strip()] = []
+                u = line.split(',')[j].strip()
                 print('u='+str(u)+'\n')
-                x = line.split('\t')[j].strip()
+                x = line.split(',')[j].strip()
                 list_o_species.append(x)
             #print('len='+ str(len(list_o_species)))
         i = 1
@@ -66,9 +66,9 @@ for l in species_dict:
     #     print('yes')
     # else:
     #     print('no')
-
+print('names=', names)
 for n in names:
-    print('na=',n)
+    print('na=', n)
 
     if n.endswith('1.cdf'):
         print('yes')
