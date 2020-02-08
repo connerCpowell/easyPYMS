@@ -19,7 +19,7 @@ from datetime import datetime
 
 
 
-def glob(glob_pattern, directoryname):
+def glob(glob_pattern, directoryname, splitPattern):
     '''
     Walks through a directory and its subdirectories looking for files matching
     the glob_pattern and returns a list=[].
@@ -35,7 +35,7 @@ def glob(glob_pattern, directoryname):
             absolute_filepath = os.path.join(root, filename)
             matches.append(absolute_filepath)
 
-            name = filename.rsplit('/CDFdata/')[-1]
+            name = filename.rsplit(splitPattern)[-1]
             names.append(name)
 
     print('n1', names)
@@ -225,12 +225,12 @@ def MS_process(file_list):
 
 
 
-def Experiment_store(names, peakz, name_tag, sdir):
+def Experiment_store(names, peakz, name_tag, sdir2):
 
     for n, p in itertools.izip(names, peakz):
         expr = Experiment(n, p)
         expr.sele_rt_range(["1m", "50m"])
-        store_expr(sdir+n+name_tag+".expr", expr)
+        store_expr(sdir2+n+name_tag+".expr", expr)
         print(n, "checked")
 
 
@@ -238,16 +238,22 @@ def main():
 
 
 
-    print("Enter values for: cdf file directory, points, scans, percent, num. of ions, storage directory1 & storage directory2" )
+    print("Enter values for: cdf file directory, split, points, scans, percent, num. of ions, storage directory1 & storage directory2" )
     print("/home/cocopalacelove/Desktop/Driscolls/Acinis/CDFdata/small_batch/")
+    print("/workdir2/shared_folder/cpowell/fileTmp/all/")
+    print("/workdir2/shared_folder/cpowell/OPTmp/csv_2016/")
+    #print("/workdir2/shared_folder/cpowell/NIST")
+
+
 
     dirc = raw_input("CDF file directory:")
+    sp = raw_input("split pattern:")
     points = int(raw_input("Points:"))
     scans = int(raw_input("Scans:"))
     percent = int(raw_input("Percent:"))
     nin = int(raw_input("num. of ions:"))
-    sdir = raw_input("Storage directory1:")
-    #sdir2 = raw_input("Storage directory2:")
+    sdir = raw_input("Storage directory1 (.csv):")
+    sdir2 = raw_input("Storage directory2 (expr):")
 
     matrixes = []
     noise = []
@@ -256,6 +262,7 @@ def main():
 
     print ("CDF file directory:", dirc)
     print ("Points:", points)
+    print("split:", sp)
     print ("Scans:", scans)
     print ("Percent:", percent)
     print ("num. of ions:", nin)
@@ -265,7 +272,7 @@ def main():
     startTime = datetime.now()
 
 
-    list_of_cdffiles, names = glob(glob_pattern='*.cdf', directoryname=dirc)
+    list_of_cdffiles, names = glob(glob_pattern='*.cdf', directoryname=dirc, splitPattern=sp)
     for cdffile, name in itertools.izip(list_of_cdffiles, names):
         print('name=', name)
         #names.append(name)
@@ -280,7 +287,7 @@ def main():
     # for i, n in itertools.izip(pp_im, noise):
     #     print(i, n)
     peak_m = Peak_detector(pp_im, noise, names, points, scans, percent, nin, name_tag, sdir)
-    Experiment_store(names, peak_m[0], name_tag, sdir)
+    Experiment_store(names, peak_m[0], name_tag, sdir2)
 
     print('p1=', peak_m[1])
     MS_process(peak_m[1])
