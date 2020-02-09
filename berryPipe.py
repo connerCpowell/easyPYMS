@@ -238,22 +238,32 @@ def main():
 
 
 
-    print("Enter values for: cdf file directory, split, points, scans, percent, num. of ions, storage directory1 & storage directory2" )
-    print("/home/cocopalacelove/Desktop/Driscolls/Acinis/CDFdata/small_batch/")
-    print("/workdir2/shared_folder/cpowell/fileTmp/all/")
-    print("/workdir2/shared_folder/cpowell/OPTmp/csv_2016/")
-    #print("/workdir2/shared_folder/cpowell/NIST")
+    # print("Enter values for: cdf file directory, split, points, scans, percent, num. of ions, storage directory1 & storage directory2" )
+    # print("/home/cocopalacelove/Desktop/Driscolls/Acinis/CDFdata/small_batch/")
+    # print("/workdir2/shared_folder/cpowell/fileTmp/all/")
+    # print("/workdir2/shared_folder/cpowell/OPTmp/csv_2016/")
+    # #print("/workdir2/shared_folder/cpowell/NIST")
+    #
+    #
+    #
+    # dirc = raw_input("CDF file directory:")
+    # sp = raw_input("split pattern:")
+    # points = int(raw_input("Points:"))
+    # scans = int(raw_input("Scans:"))
+    # percent = int(raw_input("Percent:"))
+    # nin = int(raw_input("num. of ions:"))
+    # sdir = raw_input("Storage directory1 (.csv):")
+    # sdir2 = raw_input("Storage directory2 (expr):")
 
+    dirc = sys.argv[1]
+    sp = sys.argv[2]
+    points = int(sys.argv[3])
+    scans = int(sys.argv[4])
+    percent = int(sys.argv[5])
+    nin = int(sys.argv[6])
+    sdir = sys.argv[7]
+    sdir2 = sys.argv[8]
 
-
-    dirc = raw_input("CDF file directory:")
-    sp = raw_input("split pattern:")
-    points = int(raw_input("Points:"))
-    scans = int(raw_input("Scans:"))
-    percent = int(raw_input("Percent:"))
-    nin = int(raw_input("num. of ions:"))
-    sdir = raw_input("Storage directory1 (.csv):")
-    sdir2 = raw_input("Storage directory2 (expr):")
 
     matrixes = []
     noise = []
