@@ -35,7 +35,7 @@ def singleAlign(exprs):
     T1 = PairwiseAlignment(F1, mod, gp)
     A1 = align_with_tree(T1, min_peaks=2)
 
-    A1.write_csv('/home/cocopalacelove/tmp/sb_out/A1_rt.csv', '/home/cocopalacelove/tmp/sb_out/A1_area.csv')
+    A1.write_csv('/home/cocopalacelove/tmp/sb_out/A1a_rt.csv', '/home/cocopalacelove/tmp/sb_out/A1a_area.csv')
 
 
 def main():

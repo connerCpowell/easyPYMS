@@ -8,37 +8,46 @@ def distance(lista, listb):
 
 def get_data(line, num):
     try:
-        return float(line.split(',')[num].strip())
+        x = float(line.split(',')[num].strip())
+        #print('gd_x=', x)
+        return x
     except:
         return 0
 
-with open('/home/cocopalacelove/tmp/sb_out/A1_area.csv', 'r') as f:
+with open('/home/cocopalacelove/tmp/sb_out/A1a_area.csv', 'r') as f:
     i = 0
     species_dict = OrderedDict()
     list_o_species = []
     total = 0
     for line in f:
-        # print(line)
-        num = line.count(',')
-        # print('num=' + str(num))
+        print('line=', line)
+        num = line.count('\t')
+        num2 = line.count(',')
+
+        # print('num=', line.count('\t'))
+        # print('num2=', line.count(','))
+
         if num > 0:
             total = num + 1
             print('total=' + str(total))
+        print('i1=', i)
+
         if i != 0:
             count = 0
-            for j in range(num-1):
+            for j in range(num2):
                 y =  get_data(line, j)
-                print('y='+str(y))
+                #print('y='+str(y))
                 #count += 1
                 #print('c='+str(count))
-                print('d=', str(len(species_dict)))
-                print('l=', str(len(list_o_species)))
-                #print('jx=', get_data(line, j))
+                # print('d=', str(len(species_dict)))
+                # print('l=', str(len(list_o_species)))
+                # print('jx=', get_data(line, j))
                 species_dict[list_o_species[j]].append(get_data(line, j+1))
-                print('j='+str(j)+ '\n')
+                #print('j='+str(j)+ '\n')
         else:
-            for i in range(num):
-                print('i=', i)
+            for i in range(num2):
+                print('rang_n2', range(num2))
+                print('i0=', i)
                 j = i+1
 
                 species_dict[line.split(',')[j].strip()] = []
@@ -49,41 +58,58 @@ with open('/home/cocopalacelove/tmp/sb_out/A1_area.csv', 'r') as f:
             #print('len='+ str(len(list_o_species)))
         i = 1
         #print( 'total='+str(total))
-    #print( species_dict)
+    print(species_dict)
+
+# for i in species_dict:
+#     print(i.items())
 
 
 dm_list =[]
 names = []
 name2 = []
 
+x =0
 for l in species_dict:
-    #print l, species_dict[l]
-    print('line=', l)
-    dm_list.append(species_dict[l])
-    names.append(l)
-    #print(l)
-    # if l.endswith('1.cdf'):
-    #     print('yes')
-    # else:
-    #     print('no')
+    if x == 0:
+        print(l)
+        x += 1
+    else:
+        print(l, species_dict[l])
+        dm_list.append(species_dict[l])
+        names.append(l)
+        #print(l)
+        # if l.endswith('1.cdf'):
+        #     print('yes')
+        # else:
+        #     print('no')
 print('names=', names)
+
+
+
+
 for n in names:
-    print('na=', n)
-
-    if n.endswith('1.cdf'):
+    print('n=', n)
+    if str(n).endswith('1.cdf"'):
         print('yes')
-        m = n.strip('-')
-        #print('m='+m)
-        na = m[3:-4]
+        #na = n.strip("1.cdf")
+
         #print('na='+na)
-    name2.append(na)
+        name2.append(na)
+    else:
+        print('no')
 
-print(name2)
 
+print('dmL len', len(dm_list))
+print('dm_list', dm_list)
+print('name2', name2)
+
+# print('dm5', dm_list[5])
+
+#
 d = distance_matrix(dm_list, dm_list)
 print(d)
 
-linked = linkage(d, 'average')
+linked = linkage(d, 'ward')
 
 labelList = range(1, 25)
 

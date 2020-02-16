@@ -404,7 +404,7 @@ class Alignment(object):
         @author: Andrew Isaac
         @author: Vladimir Likic
         """
-        sep = '\t'
+        sep = ','
         try:
             fp1 = open(rt_file_name, "w")
             fp2 = open(area_file_name, "w")
