@@ -26,7 +26,7 @@ def glob(glob_pattern, directoryname):
 
     return matches, names
 
-def singleAlign(exprs):
+def singleAlign(exprs, rt_dir, area_dir):
 
     mod = 2.5
     gp = 0.30
@@ -35,11 +35,16 @@ def singleAlign(exprs):
     T1 = PairwiseAlignment(F1, mod, gp)
     A1 = align_with_tree(T1, min_peaks=2)
 
-    A1.write_csv('/home/cocopalacelove/tmp/sb_out/A1a_rt.csv', '/home/cocopalacelove/tmp/sb_out/A1a_area.csv')
+    #A1.write_csv('/home/cocopalacelove/tmp/sb_out/A1a_rt.csv', '/home/cocopalacelove/tmp/sb_out/A1a_area.csv')
+    A1.write_csv(rt_dir, area_dir)
+
 
 
 def main():
-    folder_with_exprs = '/home/cocopalacelove/tmp/'
+    folder_with_exprs = sys.argv[1]
+    rt_dir = sys.argv[2]
+    area_dir = sys.argv[3]
+
     expr_loaded = []
 
     list_of_exprs, names = glob(glob_pattern='*.expr', directoryname=folder_with_exprs)
@@ -48,7 +53,7 @@ def main():
         expr = load_expr(i)
         expr_loaded.append(expr)
 
-    singleAlign(expr_loaded)
+    singleAlign(expr_loaded, rt_dir, area_dir)
     print('Done!')
 
 

@@ -271,13 +271,16 @@ def main():
 
 
     print ("CDF file directory:", dirc)
-    print ("Points:", points)
     print("split:", sp)
+    print ("Points:", points)
+
     print ("Scans:", scans)
     print ("Percent:", percent)
     print ("num. of ions:", nin)
     print("Name_tag:", name_tag)
-    print("Storage directory:", sdir)
+    print("Storage directory (expr):", sdir)
+    print("Storage dir (csv):", sdir2)
+
 
     startTime = datetime.now()
 
