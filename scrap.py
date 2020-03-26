@@ -2,6 +2,7 @@ from scipy.spatial import distance_matrix
 from scipy.cluster.hierarchy import dendrogram, linkage
 from matplotlib import pyplot as plt
 from collections import OrderedDict
+import sys
 
 def distance(lista, listb):
     return sum((b - a) ** 2 for a,b in zip(lista, listb)) ** .5
@@ -14,7 +15,10 @@ def get_data(line, num):
     except:
         return 0
 
-with open('/home/cocopalacelove/tmp/sb_out/A1a_area.csv', 'r') as f:
+file = sys.argv[1]
+
+#with open('/home/cocopalacelove/tmp/sb_out/beta1_area.csv', 'r') as f:
+with open(file, 'r') as f:
     i = 0
     species_dict = OrderedDict()
     list_o_species = []
@@ -94,7 +98,7 @@ for n in names:
         #na = n.strip("1.cdf")
 
         #print('na='+na)
-        name2.append(na)
+        name2.append(n)
     else:
         print('no')
 
@@ -111,14 +115,14 @@ print(d)
 
 linked = linkage(d, 'ward')
 
-labelList = range(1, 25)
+# labelList = range(1, 25)
 
 plt.figure(figsize=(10,10))
-dendrogram(linked,
-            orientation='top',
-            labels=name2,
-            distance_sort='descending',
-            show_leaf_counts=True)
+dendrogram(linked),
+            # orientation='top',
+            # labels=name2,
+            # distance_sort='descending',
+            # show_leaf_counts=True)
 
 #plt.savefig('blue_p120s30pe10n3_p34.png')
 plt.show()

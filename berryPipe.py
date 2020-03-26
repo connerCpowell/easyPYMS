@@ -209,7 +209,7 @@ def MS_process(file_list):
                 pp.write(nn + "\n")
                 for i in rs:
                     ss = str(i).replace('[', '').replace(']', '').replace(',', '')
-                    print('ss=', ss)
+                    #print('ss=', ss)
                     pp.write(ss + "\n")
                 #print('\n')
                 pp.write("\n")
