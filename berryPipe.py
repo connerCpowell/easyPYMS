@@ -148,7 +148,7 @@ def MS_process(file_list):
         peaks = []
         areas = []
         print('n=', n)
-        print("----------------------------------11------------------------------------")
+        print("-------------11------------------------------------")
         with open(n, 'r') as f:
             next(f)
             for line in f:
@@ -200,18 +200,18 @@ def MS_process(file_list):
                 # print('rs=', rs)
                 ll = 'Name:', p, 'Area-', a
                 ll = str(ll).replace("'","").replace(",","").replace("(","").replace(")","")
-                print('ll=', ll)
+                #print('ll=', ll)
                 pp.write(ll + "\n")
 
                 nn = 'Num Peaks:', 10
                 nn = str(nn).replace("'","").replace(",","").replace("(","").replace(")","")
-                print('nn=', nn)
+                #print('nn=', nn)
                 pp.write(nn + "\n")
                 for i in rs:
                     ss = str(i).replace('[', '').replace(']', '').replace(',', '')
                     print('ss=', ss)
                     pp.write(ss + "\n")
-                print('\n')
+                #print('\n')
                 pp.write("\n")
             pp.close()
 
@@ -278,8 +278,8 @@ def main():
     print ("Percent:", percent)
     print ("num. of ions:", nin)
     print("Name_tag:", name_tag)
-    print("Storage directory (expr):", sdir)
-    print("Storage dir (csv):", sdir2)
+    print("Storage directory (csv):", sdir)
+    print("Storage dir (expr):", sdir2)
 
 
     startTime = datetime.now()
@@ -305,8 +305,7 @@ def main():
     print('p1=', peak_m[1])
     MS_process(peak_m[1])
 
-    print("runtime=")
-    print datetime.now() - startTime
+    print("runtime=", (datetime.now() - startTime))
 
 
     #print(dirc, points)
