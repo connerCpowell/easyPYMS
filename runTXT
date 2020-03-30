@@ -1,0 +1,1 @@
+python berryPipe.py /workdir2/shared_folder/cpowell/fielTmp/all/xap /2016_blueberry_gwas/ 140 25 3 3 /workdir2/shared_folder/cpowell/expr /workdir2/shared_folder/cpowell/OPtmp/expr
