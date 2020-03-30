@@ -124,5 +124,5 @@ dendrogram(linked),
             # distance_sort='descending',
             # show_leaf_counts=True)
 
-#plt.savefig('blue_p120s30pe10n3_p34.png')
+plt.savefig('blue_gwas_2016.png')
 plt.show()
