@@ -93,7 +93,7 @@ print('names=', names)
 
 for n in names:
     print('n=', n)
-    if str(n).endswith('1.cdf"'):
+    if str(n).endswith('.cdf"'):
         print('yes')
         #na = n.strip("1.cdf")
 
