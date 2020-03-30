@@ -118,11 +118,11 @@ linked = linkage(d, 'ward')
 # labelList = range(1, 25)
 
 plt.figure(figsize=(10,10))
-dendrogram(linked),
-            # orientation='top',
-            # labels=name2,
-            # distance_sort='descending',
-            # show_leaf_counts=True)
+dendrogram(linked,
+            orientation='top',
+            labels=name2,
+            distance_sort='descending',
+            show_leaf_counts=True)
 
 plt.savefig('blue_gwas_2016.png')
 plt.show()
