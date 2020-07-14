@@ -1,1 +1,9 @@
-python berryPipe.py /workdir2/shared_folder/cpowell/fielTmp/all/xap /2016_blueberry_gwas/ 140 25 3 3 /workdir2/shared_folder/cpowell/expr /workdir2/shared_folder/cpowell/OPtmp/expr
+python preppeaks_GCMS.py \
+-f /workdir2/shared_folder/cpowell/fielTmp/all/xap \
+-n /2016_blueberry_gwas/ 
+-p 140 \
+-s 25 \
+-t 3 \
+-i 3 \
+-c /workdir2/shared_folder/cpowell/expr \
+-e /workdir2/shared_folder/cpowell/OPtmp/expr

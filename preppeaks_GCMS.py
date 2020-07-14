@@ -63,7 +63,7 @@ def matrix_from_cdf(cdffile, name):
     return build_intensity_matrix(data), noise_lvl
 
 
-def Preprocess_IntensityMatrixes(matrices):
+def Preprocess_IntensityMatrices(matrices):
     """
     Baseline correction and smoothing of Intensity Matrices
     input matrix list, outputs corrected/"cleansed" matrix list
@@ -89,16 +89,16 @@ def Preprocess_IntensityMatrixes(matrices):
 
 def Peak_detector(pp_im, noise, name, points, scans, percent, ni, name_tag, sdir):
     """
-    Intake clenased intensity matrices and CMD args
-    Produces list of peaks and corresponding mass spectrums of each sample
+    Intake cleansed intensity matrices and CMD args
+    Produces list of peaks and corresponding mass spectrum of each sample
 
-    @param pp_im: Cleansed intensity matrices from the Preprocess_IntensityMatrixes method
+    @param pp_im: Cleansed intensity matrices from the Preprocess_IntensityMatrices method
     @param noise: Noise level approximation produced by the matrix_from_cdf method
     @param name: Sample name use from creating mass spectrum .csv files
     @param points: Size of window use for peak detection in BillerBiemann method
     @param scans: Number of adjacent windows to compare for peak detection in BillerBiemann method
     @param percent: Percentile threshold a peak must exceed to be considered an informative peak
-    @param ni: Number of ions required per peak to be consuidered an informative peak
+    @param ni: Number of ions required per peak to be considered an informative peak
     @param name_tag: String consisting of CMD args for identification, ie. 'p140s25%3n3'
     @param sdir: Directory to save the mass spectrum .csv files
     @return: List of peaks per sample
@@ -224,11 +224,11 @@ def Experiment_store(names, peakz, name_tag, sdir2):
     Stores peak information used in the peak alignment scripts ()
     Using CMD args for the names and storage directory
 
-    @param names:
-    @param peakz:
-    @param name_tag:
-    @param sdir2:
-    @return:
+    @param names: .cdf file names processed by this script
+    @param peakz: peak data corresponding to each .cdf file
+    @param name_tag: Identifier expressing peak detection variables used in this processing run
+    @param sdir2: Location to store to .expr files corresponding to each .cdf file
+    @return: list of files saved
     """
 
     for n, p in itertools.izip(names, peakz):
@@ -239,83 +239,74 @@ def Experiment_store(names, peakz, name_tag, sdir2):
 
 def main():
 
-    parser = argparse.ArgumentParser(description="Preprocessing & Peak detection tool for GC-MS data")
+    parser = argparse.ArgumentParser(description="Pre-processing & Peak detection tool for GC-MS .cdf formatted data")
 
     parser.add_argument("-f",
-                        "--CDFs",
                         action="store",
                         dest="dirc",
                         nargs="?",
                         type=str,
-                        default="tmp/",
-                        help="CDF Directory: Location of .cdf files to be processed \n")
+                        default="./tmp/",
+                        help="Location of .cdf files to be processed; Default= '/tmp/' ")
 
     parser.add_argument("-n",
-                        "--name",
                         action="store",
                         nargs="?",
                         type=str,
-                        #default="",
-                        help="Name Split: Where to split .cdf file name \n",
+                        help="location in .cdf file name to split on",
                         dest="name"
                         )
 
     parser.add_argument("-p",
-                        "--points",
                         action="store",
                         nargs="?",
-                        # action='store_const',
                         const=1,
                         type=int,
                         default=140,
-                        help="Points: Number of points used to determine window size \n",
+                        help="Number of points used to determine window size for peak detection; Default=140",
                         dest="points",
                         )
 
     parser.add_argument("-s",
-                        "--scans",
                         action="store",
                         dest="scans",
                         nargs="?",
                         const=1,
                         type=int,
                         default=25,
-                        help="Scans: Number of scans to average for \n")
+                        help="Number of scans (adjacent windows) to average across for peak detection; Default=25")
 
     parser.add_argument("-t",
-                        "--threshold",
                         action="store",
                         dest="threshold",
                         nargs="?",
                         const=1,
                         type=int,
                         default=3,
-                        help="Threshold percent: Minimum threshold percentage to be considered a peak \n")
+                        help="Minimum percentage threshold required to qualify as a peak; Default=3")
 
     parser.add_argument("-i",
-                        "--ion",
                         action="store",
                         dest="ion",
                         nargs="?",
                         const=1,
                         type=int,
                         default=3,
-                        help="Number of Ions: Minimum number of Ions required for peak consideration \n")
+                        help="Minimum number of Ions required to qualify as a peak; Default=3")
 
     parser.add_argument("-c",
-                        "--CSVdir",
                         action="store",
                         dest="sdir",
                         nargs="?",
                         default="tmp/",
-                        help="CSV Directory: Location to save MS extraction .csv files \n")
+                        help="Location to save MS extraction .csv files")
 
     parser.add_argument("-e",
-                        "--EXPRdir",
                         action="store",
                         dest="sdir2",
+                        nargs="?",
                         default="tmp/",
-                        help="EXPR Directory: Location to save the .expr files for alignment scripts \n")
+                        help="Location to save the .expr files for alignment scripts")
     args = parser.parse_args()
 
     print(args)
@@ -332,7 +323,7 @@ def main():
     print("Storage directory (csv):", args.sdir)
     print("Storage dir (expr):", args.sdir2)
 
-    matrixes = []
+    matrices = []
     noise = []
 
     startTime = datetime.now()
@@ -342,17 +333,17 @@ def main():
     for cdffile, name in itertools.izip(list_of_cdffiles, names):
         print('name=', name)
         m_c = matrix_from_cdf(cdffile, name)
-        matrixes.append(m_c[0])
+        matrices.append(m_c[0])
         noise.append(m_c[1])
 
     print('names=', names)
 
-    pp_im = Preprocess_IntensityMatrixes(matrixes)
+    pp_im = Preprocess_IntensityMatrices(matrices)
     peak_m = Peak_detector(pp_im, noise, names, args.points, args.scans, args.threshold, args.ion, name_tag, args.sdir)
-    print(peak_m)
+    #print(peak_m)
     Experiment_store(names, peak_m[0], name_tag, args.sdir2)
 
-    print('p1=', peak_m[1])
+    #print('p1=', peak_m[1])
     MS_process(peak_m[1])
 
     timeR = datetime.now() - startTime
