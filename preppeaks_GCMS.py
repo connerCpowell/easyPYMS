@@ -246,7 +246,7 @@ def main():
                         dest="dirc",
                         nargs="?",
                         type=str,
-                        default="./tmp/",
+                        default="/workdir2/cpowell/rasp2018",
                         help="Location of .cdf files to be processed; Default= '/tmp/' ")
 
     parser.add_argument("-n",
@@ -298,14 +298,14 @@ def main():
                         action="store",
                         dest="sdir",
                         nargs="?",
-                        default="tmp/",
+                        default="/workdir2/cpowell/tmp/",
                         help="Location to save MS extraction .csv files")
 
     parser.add_argument("-e",
                         action="store",
                         dest="sdir2",
                         nargs="?",
-                        default="tmp/",
+                        default="/workdir2/cpowell/tmp/",
                         help="Location to save the .expr files for alignment scripts")
     args = parser.parse_args()
 
