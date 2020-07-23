@@ -36,8 +36,8 @@ def singleAlign(exprs, dir):
     A1 = align_with_tree(T1, min_peaks=2)
 
     #A1.write_csv('/home/cocopalacelove/tmp/sb_out/A1a_rt.csv', '/home/cocopalacelove/tmp/sb_out/A1a_area.csv')
-    A1.write_csv(str(dir)+"2016BG_rt.csv", str(dir)+"2016BG_area.csv")
-    print(str(dir)+"2016BG_rt.csv", str(dir)+"2016BG_area.csv")
+    A1.write_csv(str(dir)+"rasp2018_rt.csv", str(dir)+"rasp2018_area.csv")
+    print(str(dir)+"rasp2018_rt.csv", str(dir)+"rasp2018_area.csv")
 
 
 
