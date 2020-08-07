@@ -24,7 +24,7 @@ with open(file, 'r') as f:
     list_o_species = []
     total = 0
     for line in f:
-        print('line=', line)
+        # print('line=', line)
         num = line.count('\t')
         num2 = line.count(',')
 
@@ -95,23 +95,26 @@ for n in names:
     print('n=', n)
     if str(n).endswith('.cdf"'):
         print('yes')
-        #na = n.strip("1.cdf")
+        na = n.strip('.cdf"')
 
+        na2 = na.replace("_", ".")
+        na3 = na2.replace("-", ".")
+        print('na3=', na3)
         #print('na='+na)
-        name2.append(n)
+        name2.append(na3)
     else:
         print('no')
 
 
-print('dmL len', len(dm_list))
-print('dm_list', dm_list)
+#print('dmL len', len(dm_list))
+#print('dm_list', dm_list)
 print('name2', name2)
 
 # print('dm5', dm_list[5])
 
 #
 d = distance_matrix(dm_list, dm_list)
-print(d)
+#print(d)
 
 linked = linkage(d, 'ward')
 
@@ -124,5 +127,9 @@ dendrogram(linked,
             distance_sort='descending',
             show_leaf_counts=True)
 
-plt.savefig('blue_gwas_2016.png')
+
+            
+
+
+plt.savefig('rasp2018_87c.svg', format="svg")
 plt.show()
