@@ -76,6 +76,8 @@ def repAlign(exprs, dir, mod1, mod2, gp1, gp2, mp1, mp2, nameTag):
         T1 = PairwiseAlignment(F1, mod1, gp1)
         A1 = align_with_tree(T1, min_peaks=mp1)
         T2.append(A1)
+        print('v=', v)
+        print("i=", i)
         print(len(F1), F1)
     print('bG=', bG)
     print(T2)
