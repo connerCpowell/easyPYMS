@@ -211,6 +211,10 @@ def main():
         print('replicate run')
 
         berries, name = rep_dict(list_of_exprs)
+
+        print("berries=", berries)
+        print("names", name)
+
         repAlign(berries,
                  args.opDir,
                  args.mod,
