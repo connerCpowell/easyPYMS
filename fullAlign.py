@@ -1,5 +1,5 @@
 import fnmatch
-import sys, os
+import os
 
 from pyms.Experiment.IO import load_expr
 from pyms.Peak.List.DPA.Class import PairwiseAlignment
@@ -8,14 +8,15 @@ import argparse
 
 
 def glob(glob_pattern, directoryname):
-    '''
+    """
     Walks through a directory and its subdirectories looking for files matching
     the glob_pattern and returns a list=[].
 
     :param directoryname: Any accessible folder name on the filesystem.
     :param glob_pattern: A string like "*.txt", which would find all text files.
     :return: A list=[] of absolute filepaths matching the glob pattern.
-    '''
+    """
+
     matches = []
     names = []
     for root, dirnames, filenames in os.walk(directoryname):
@@ -30,6 +31,16 @@ def glob(glob_pattern, directoryname):
 
 
 def rep_dict(cdfs):
+    """
+    @summary: Creates two dictionaries, one consisting of the experiment names, ordered by ID number
+    the second consisting of the sample names, ordered by ID number as well.
+    These dictionaries allow for the replicate grouping alignment.
+
+    @param cdfs: List of .expr files to be aligned with each other
+    @return:  Breed_dict[], dictionary containing loaded experiments
+    @return: name_dict[], dictionary containing sample name associated to experiment files
+    """
+
     breed_dict = {}
     name_dict = {}
 
@@ -54,6 +65,19 @@ def rep_dict(cdfs):
 
 
 def singleAlign(exprs, dir, mod, gp, mp, nameTag):
+    """
+    @summary: Converts experiments into alignments then models the pairwise alignments.
+    The alignments are then aligned using the pairwise alignment object.
+    The alignment tree is then exported and saved as a .csv file
+
+    @param exprs: List containing .expr files to be aligned
+    @param dir: Directory to save the output alignment .csv files
+    @param mod: Retention time tolerance, in seconds
+    @param gp: Gap penalty
+    @param mp: Minimum peaks required
+    @param nameTag: Identifier for saving .csv file
+    @return: Two .csv files which express the similarities of each sample in retention time & peak area
+    """
 
     F1 = exprl2alignment(exprs)
     T1 = PairwiseAlignment(F1, mod, gp)
@@ -67,6 +91,22 @@ def singleAlign(exprs, dir, mod, gp, mp, nameTag):
 
 
 def repAlign(exprs, dir, mod1, mod2, gp1, gp2, mp1, mp2, nameTag):
+    """
+    @summary: Converts experiments into alignments then models the pairwise alignments
+    The alignments are then aligned using the pairwise alignment object.
+    The alignment tree is then exported and saved as a .csv file
+
+    @param exprs: Dictionary containing .expr files and sample identifiers
+    @param dir: Directory to save the output alignment .csv files
+    @param mod1: Retention time tolerance, in seconds (inner-state)
+    @param mod2: Retention time tolerance, in seconds (between-state)
+    @param gp1: Gap penalty (inner-state)
+    @param gp2: Gap penalty (between-state)
+    @param mp1: Minimum peaks required (inner-state)
+    @param mp2: Minimum peaks required (between-state)
+    @param nameTag: Identifier for saving .csv file
+    @return: Two .csv files which express the similarities of each sample in retention time & peak area
+    """
 
     bG = []
     T2 = []
@@ -96,7 +136,7 @@ def repAlign(exprs, dir, mod1, mod2, gp1, gp2, mp1, mp2, nameTag):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Pre-processing & Peak detection tool for GC-MS .cdf formatted data")
+    parser = argparse.ArgumentParser(description="Peak alignment tool with adjustable tolerances & grouping strategies")
 
     parser.add_argument("-e",
                         action="store",
@@ -104,7 +144,7 @@ def main():
                         nargs="?",
                         type=str,
                         default="/workdir2/cpowell/rasp2018/",
-                        help="Location of .expr files to be aligned; Default= '/tmp/' ")
+                        help="Location of .expr files to be aligned; Default= '/workdir2/cpowell/rasp2018/' ")
 
     parser.add_argument("-o",
                         action="store",
@@ -112,7 +152,7 @@ def main():
                         nargs="?",
                         type=str,
                         default="/tmp/",
-                        help="location to store the alignment .csv output file",
+                        help="location to store the alignment .csv output file; Default= '/tmp/' ",
 
                         )
 
@@ -122,7 +162,7 @@ def main():
                         const=1,
                         type=float,
                         default=2.5,
-                        help="Modulation time allowed between peaks considered similar; Default=2.5",
+                        help="Retention time tolerance value between compared peaks; Default=2.5",
                         dest="mod",
                         )
 
@@ -132,7 +172,7 @@ def main():
                         const=1,
                         type=float,
                         default=2.5,
-                        help="* For rep only: 2nd modulation time allowed between peaks considered similar; Default=2.5",
+                        help="*Between-state: 2nd Retention time tolerance value between compared peaks; Default=2.5",
                         dest="mod2",
                         )
 
@@ -142,7 +182,7 @@ def main():
                         const=1,
                         type=float,
                         default=0.30,
-                        help="Gap penalty; Default=0.30",
+                        help="Gap penalty for a non-aligning peak; Default=0.30",
                         dest="gap",
                         )
 
@@ -152,7 +192,7 @@ def main():
                         const=1,
                         type=float,
                         default=0.30,
-                        help="For rep only: 2nd gap penalty; Default=0.30",
+                        help="*Between-state: 2nd gap penalty for a non-aligning peak; Default=0.30",
                         dest="gap2",
                         )
 
@@ -162,7 +202,7 @@ def main():
                         const=1,
                         type=int,
                         default=2,
-                        help="Minimum number of peaks pre sample required for alignment ; Default=2",
+                        help="Minimum number of peaks per sample required for alignment; Default=2",
                         dest="minPeak",
                         )
 
@@ -172,31 +212,32 @@ def main():
                         const=1,
                         type=int,
                         default=2,
-                        help="For rep only: 2nd minimum number of peaks pre sample required for alignment ; Default=2",
-                        dest="minPeak2",
+                        help="*Between-state: 2nd minimum number of peaks pre sample required for alignment; Default=2",
+                        dest="minPeak2"
                         )
 
     parser.add_argument("-n",
                         action="store",
                         nargs="?",
                         type=str,
-                        default="alignment",
-                        help="Number of points used to determine window size for peak detection; Default='alignment'",
+                        default="alignment-",
+                        help="Identifier string used for .csv file storage; Default='alignment-'",
                         dest="nameTag"
                         )
 
     parser.add_argument("-as",
-                        choices=['single', 'rep'],
+                        choices=['inner', 'between'],
                         type=str,
-                        default="single",
+                        default="inner",
+                        help="Alignment strategies: inner-state, between-state; Default='inner' ",
                         dest='alignS')
 
     args = parser.parse_args()
     print(args)
 
     list_of_exprs, names = glob(glob_pattern='*.expr', directoryname=args.exprDir)
-    if args.alignS == "single":
-        print('single run')
+    if args.alignS == "inner":
+        print('Singular alignment run')
         expr_loaded = []
 
         for i in list_of_exprs:
@@ -207,8 +248,8 @@ def main():
         singleAlign(expr_loaded, args.opDir, args.mod, args.gap, args.minPeak, args.nameTag)
         print('Done!')
 
-    elif args.alignS == "rep":
-        print('replicate run')
+    elif args.alignS == "between":
+        print('Between-state alignment run')
 
         berries, name = rep_dict(list_of_exprs)
 
