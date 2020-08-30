@@ -1,6 +1,5 @@
 import fnmatch
 import os
-
 from pyms.Experiment.IO import load_expr
 from pyms.Peak.List.DPA.Class import PairwiseAlignment
 from pyms.Peak.List.DPA.Function import align_with_tree, exprl2alignment
@@ -122,6 +121,7 @@ def repAlign(exprs, dir, mod1, mod2, gp1, gp2, mp1, mp2, nameTag):
     print('bG=', bG)
     print(T2)
 
+
     T3 = PairwiseAlignment(T2, mod2, gp2)
     A2 = align_with_tree(T3, min_peaks=mp2)
 
@@ -241,7 +241,7 @@ def main():
         expr_loaded = []
 
         for i in list_of_exprs:
-            print(i)
+            # print(i)
             expr = load_expr(i)
             expr_loaded.append(expr)
 
@@ -253,7 +253,7 @@ def main():
 
         berries, name = rep_dict(list_of_exprs)
 
-        print("berries=", berries)
+        # print("berries=", berries)
         print("names", name)
 
         repAlign(berries,
@@ -265,6 +265,7 @@ def main():
                  args.minPeak,
                  args.minPeak2,
                  args.nameTag)
+        print('Done!')
     #
 
 
