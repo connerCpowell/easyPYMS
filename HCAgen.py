@@ -3,7 +3,7 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 from matplotlib import pyplot as plt
 from collections import OrderedDict
 import argparse
-
+import datetime
 
 def distance(lista, listb):
     return sum((b - a) ** 2 for a, b in zip(lista, listb)) ** .5
@@ -47,7 +47,7 @@ def dictGen(inFile):
 
                     species_dict[line.split(',')[j].strip()] = []
                     u = line.split(',')[j].strip()
-                    print('u=' + str(u) + '\n')
+                    #print('u=' + str(u) + '\n')
                     x = line.split(',')[j].strip()
                     list_o_species.append(x)
             i = 1
@@ -62,10 +62,10 @@ def dictGen(inFile):
             print(l)
             x += 1
         else:
-            print(l, species_dict[l])
+            #print(l, species_dict[l])
             dm_list.append(species_dict[l])
             names.append(l)
-    print('names=', names)
+    #print('names=', names)
     return dm_list, names
 
 
@@ -81,20 +81,21 @@ def nameClean(names):
             # na2 = na.replace("_", ".")
             na3 = na.replace("-", ".")
             # na4 = na3.split('_')[1:]
-            na4 = na3.split('_')[1]
-            print('444=', na4)
+            # na4 = na3.split('_')[1]
+            print('name3=', na3)
             # print('na3=', na3)
             # print('na='+na)
-            name2.append(str(na4))
+            name2.append(str(na3))
         else:
             print('no')
 
     return name2
 
-def distMat(dm_list, names, outfile):
+
+def distMat(dm_list, names, outfile, nametag, distanceM):
 
     d = distance_matrix(dm_list, dm_list)
-    linked = linkage(d, 'ward')
+    linked = linkage(d, distanceM)
 
     plt.figure(figsize=(10, 10))
     dendrogram(linked,
@@ -103,13 +104,13 @@ def distMat(dm_list, names, outfile):
                distance_sort='descending',
                show_leaf_counts=True)
 
-    plt.savefig(outfile + '1017BB.svg', format='svg')
+    plt.savefig(outfile + nametag+'_'+distanceM+'_'+'HCA.svg', format='svg')
     plt.show()
 
 
 def main():
 
-    parser = argparse.ArgumentParser(description="Heirarchical cluster analysis using an alignment .csv file")
+    parser = argparse.ArgumentParser(description="Hierarchical cluster analysis build from the fullAlign.py *area.csv ")
 
     parser.add_argument("-c",
                         action="store",
@@ -125,17 +126,32 @@ def main():
                         nargs="?",
                         type=str,
                         default="/tmp/",
-                        help="location to store the HCA .png output file",
-                        )
+                        help="location to store the HCA .png output file")
+
+    parser.add_argument("-n",
+                        action="store",
+                        dest="nameTag",
+                        nargs="?",
+                        type=str,
+                        default=str(datetime.datetime.now()),
+                        help="identifier text to be used a nametag; Default= '*current datetime*' ")
+
+    parser.add_argument("-d",
+                        action="store",
+                        choices=['single', 'complete', 'average', 'weighted', 'centroid', 'median', 'ward'],
+                        type=str,
+                        default="ward",
+                        help="Distance method to be used to build matrix ; Default='ward' ",
+                        dest='distance')
 
     args = parser.parse_args()
     print(args)
 
     dm_list, names = dictGen(args.csvf)
 
-    name2 = nameClean(names)
+    nameC = nameClean(names)
 
-    distMat(dm_list, names, args.opn)
+    distMat(dm_list, nameC, args.opn, args.nameTag, args.distance)
     
 if __name__ == "__main__":
     main()

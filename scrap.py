@@ -15,6 +15,29 @@ def get_data(line, num):
     except:
         return 0
 
+
+def nameClean(names):
+
+    name2 = []
+    for n in names:
+        print('n=', n)
+        if str(n).endswith('.cdf"'):
+            # print('yes')
+            na = n.strip('.cdf"')
+
+            # na2 = na.replace("_", ".")
+            na3 = na.replace("-", ".")
+            # na4 = na3.split('_')[1:]
+            # na4 = na3.split('_')[1]
+            print('name3=', na3)
+            # print('na3=', na3)
+            # print('na='+na)
+            name2.append(str(na3))
+        else:
+            print('no')
+
+    return name2
+
 file = sys.argv[1]
 
 #with open('/home/cocopalacelove/tmp/sb_out/beta1_area.csv', 'r') as f:
@@ -104,6 +127,8 @@ for n in names:
         name2.append(na3)
     else:
         print('no')
+
+
 
 
 #print('dmL len', len(dm_list))
