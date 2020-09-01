@@ -2,7 +2,6 @@ from scipy.spatial import distance_matrix
 from scipy.cluster.hierarchy import dendrogram, linkage
 from matplotlib import pyplot as plt
 from collections import OrderedDict
-import sys
 import argparse
 
 
@@ -17,6 +16,95 @@ def get_data(line, num):
         return x
     except:
         return 0
+
+
+def dictGen(inFile):
+
+    with open(inFile, 'r') as f:
+        i = 0
+        species_dict = OrderedDict()
+        list_o_species = []
+        total = 0
+        for line in f:
+            num = line.count('\t')
+            num2 = line.count(',')
+
+            if num > 0:
+                total = num + 1
+                print('total=' + str(total))
+            #print('i1=', i)
+
+            if i != 0:
+                count = 0
+                for j in range(num2):
+                    y = get_data(line, j)
+                    species_dict[list_o_species[j]].append(get_data(line, j + 1))
+            else:
+                for i in range(num2):
+                    #print('rang_n2', range(num2))
+                    #print('i0=', i)
+                    j = i + 1
+
+                    species_dict[line.split(',')[j].strip()] = []
+                    u = line.split(',')[j].strip()
+                    print('u=' + str(u) + '\n')
+                    x = line.split(',')[j].strip()
+                    list_o_species.append(x)
+            i = 1
+        #print(species_dict)
+
+    dm_list = []
+    names = []
+
+    x = 0
+    for l in species_dict:
+        if x == 0:
+            print(l)
+            x += 1
+        else:
+            print(l, species_dict[l])
+            dm_list.append(species_dict[l])
+            names.append(l)
+    print('names=', names)
+    return dm_list, names
+
+
+def nameClean(names):
+
+    name2 = []
+    for n in names:
+        print('n=', n)
+        if str(n).endswith('.cdf"'):
+            # print('yes')
+            na = n.strip('.cdf"')
+
+            # na2 = na.replace("_", ".")
+            na3 = na.replace("-", ".")
+            # na4 = na3.split('_')[1:]
+            na4 = na3.split('_')[1]
+            print('444=', na4)
+            # print('na3=', na3)
+            # print('na='+na)
+            name2.append(str(na4))
+        else:
+            print('no')
+
+    return name2
+
+def distMat(dm_list, names, outfile):
+
+    d = distance_matrix(dm_list, dm_list)
+    linked = linkage(d, 'ward')
+
+    plt.figure(figsize=(10, 10))
+    dendrogram(linked,
+               orientation='top',
+               labels=names,
+               distance_sort='descending',
+               show_leaf_counts=True)
+
+    plt.savefig(outfile + '1017BB.svg', format='svg')
+    plt.show()
 
 
 def main():
@@ -43,75 +131,11 @@ def main():
     args = parser.parse_args()
     print(args)
 
-    # with open('/home/cocopalacelove/tmp/sb_out/beta1_area.csv', 'r') as f:
-    with open(args.csvf, 'r') as f:
-        i = 0
-        species_dict = OrderedDict()
-        list_o_species = []
-        total = 0
-        for line in f:
-            num = line.count('\t')
-            num2 = line.count(',')
+    dm_list, names = dictGen(args.csvf)
 
-            if num > 0:
-                total = num + 1
-                print('total=' + str(total))
-            print('i1=', i)
+    name2 = nameClean(names)
 
-            if i != 0:
-                count = 0
-                for j in range(num2):
-                    y = get_data(line, j)
-                    species_dict[list_o_species[j]].append(get_data(line, j + 1))
-            else:
-                for i in range(num2):
-                    print('rang_n2', range(num2))
-                    print('i0=', i)
-                    j = i + 1
-
-                    species_dict[line.split(',')[j].strip()] = []
-                    u = line.split(',')[j].strip()
-                    print('u=' + str(u) + '\n')
-                    x = line.split(',')[j].strip()
-                    list_o_species.append(x)
-            i = 1
-        print(species_dict)
-
-    dm_list = []
-    names = []
-    name2 = []
-
-    x = 0
-    for l in species_dict:
-        if x == 0:
-            print(l)
-            x += 1
-        else:
-            print(l, species_dict[l])
-            dm_list.append(species_dict[l])
-            names.append(l)
-    print('names=', names)
-
-    for n in names:
-        print('n=', n)
-        if str(n).endswith('.cdf"'):
-            print('yes')
-            name2.append(n)
-        else:
-            print('no')
-
-    d = distance_matrix(dm_list, dm_list)
-    linked = linkage(d, 'ward')
-
-    plt.figure(figsize=(10, 10))
-    dendrogram(linked,
-               orientation='top',
-               labels=name2,
-               distance_sort='descending',
-               show_leaf_counts=True)
-
-    plt.savefig(args.opn + '.svg', format='svg')
-    plt.show()
+    distMat(dm_list, names, args.opn)
     
 if __name__ == "__main__":
     main()
